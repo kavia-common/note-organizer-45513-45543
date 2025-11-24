@@ -1,47 +1,77 @@
-# Astro Starter Kit: Minimal
+# Ocean Notes – Astro Frontend Notes App
+
+A modern, minimalistic notes app built with Astro and the "Ocean Professional" theme.  
+Features a responsive sidebar, searchable notes list, markdown/plain text editing, localStorage persistence, and keyboard accessibility.
+
+---
+
+## 🚀 Quickstart
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) to use the app.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+- `npm run preview`: Preview your production build locally.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
+## Features
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Sidebar:** List your notes, select to edit, or delete. Create new notes with one click.
+- **Main Editor:** Write and edit notes. Autosaves changes and persists via browser localStorage.
+- **Real-time Search:** Filter notes by title or content.
+- **Keyboard-accessible:** Navigate and operate all features with keyboard alone.
+- **Persisted Storage:** Notes survive browser refresh via localStorage.
+- **Theme:** Ocean Professional – blue primary (`#2563EB`), amber secondary (`#F59E0B`), error (`#EF4444`), soft gradients, surface/background, deep navy text, rounded corners, subtle drop-shadows, and lively transitions.
+- **Responsive:** Fully responsive and touch compatible.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+---
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Architecture
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- **Astro** for static rendering and theming.
+- **Preact** island for reactive state: Search, CRUD, localStorage, focus, and editor logic.
+- Custom components for header, sidebar, note editor.
+- Domain logic and UI glued via a single island pattern for best interactivity with minimal bundle size.
 
-Any static assets, like images, can be placed in the `public/` directory.
+---
 
-## 🧞 Commands
+## Environment
 
-All commands are run from the root of the project, from a terminal:
+- No backend is required or configured for the MVP; data is stored in browser localStorage.
+- `.env.example` is included for future PUBLIC_API_BASE or related variables, but not needed for current functionality.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## Accessibility & UX
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Semantic HTML, ARIA roles, proper focus management.
+- Keyboard users: Tab through sidebar/notes/actions, Enter or Space to activate, Esc or Cancel button to leave edit mode.
+
+---
+
+## Theming
+
+- Colors:  
+  - Primary: `#2563EB` (blue)  
+  - Secondary/success: `#F59E0B` (amber)
+  - Error: `#EF4444`
+  - Background: `#f9fafb`
+  - Surface: `#ffffff`
+  - Text: `#111827`
+  - Gradient: subtle, from blue-500/10 to gray-50  
+- Rounded corners, drop-shadows, and smooth transitions for a polished "Ocean Professional" feel.
+
+---
+
+## Customization
+
+- To wire up an API or sync backend, see `.env.example` for `PUBLIC_*` env configuration points.
+
+---
+
+## License
+
+MIT

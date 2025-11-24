@@ -1,0 +1,185 @@
+---
+export interface NoteItem {
+  id: string;
+  title: string;
+  updated: string;
+}
+export interface Props {
+  notes: NoteItem[];
+  selectedId: string;
+  onSelect: any;
+  onCreate: any;
+  onDelete: any;
+}
+const { notes, selectedId, onSelect, onCreate, onDelete } = Astro.props;
+---
+<aside class="sidebar" role="navigation" aria-label="Notes list">
+  <div class="sidebar-header">
+    <button
+      class="new-btn"
+      title="New note"
+      onClick={onCreate}
+      aria-label="Create a new note"
+      tabindex="0"
+    >
+      <span aria-hidden="true">+</span> New Note
+    </button>
+  </div>
+  <ul class="notes-list" role="listbox">
+    {notes.length === 0 &&
+      <li class="empty" aria-live="polite">No notes found</li>
+    }
+    {notes.map((note) => (
+      <li
+        class:list={["note-item", note.id === selectedId && "active"]}
+        role="option"
+        aria-selected={note.id === selectedId}
+        tabindex={note.id === selectedId ? "0" : "-1"}
+        onClick={() => onSelect(note.id)}
+        onKeydown={(e) => {
+          if (e.key === "Enter" || e.key === " ") onSelect(note.id);
+        }}>
+        <span class="item-title">{note.title || "Untitled note"}</span>
+        <span class="item-date">{formatDate(note.updated)}</span>
+        <button type="button" class="delete" title="Delete note" aria-label={`Delete ${note.title || 'untitled note'}`}
+          onClick={(e) => { e.stopPropagation(); onDelete(note.id); }}>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M6 8v5a2 2 0 001 1.73V15h6a2 2 0 002-2V8m-9 1h10M9 4v1h2V4M4 6h12" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </li>
+    ))}
+  </ul>
+</aside>
+<script type="module" hoist>
+export function formatDate(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+</script>
+<style>
+.sidebar {
+  width: 264px;
+  min-width: 200px;
+  max-width: 320px;
+  background: linear-gradient(120deg, #2563EB0A 0%, #fff 70%);
+  border-right: 1.5px solid #d1d5db40;
+  padding: 1.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  box-shadow: 2px 0 24px #2563eb10;
+  transition: box-shadow 0.22s, background 0.22s;
+}
+
+.sidebar-header {
+  padding: 0 1.3rem 1rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.new-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 1.04em;
+  padding: 0.54em 1.15em;
+  background: linear-gradient(90deg,#2563EB 90%, #F59E0B 100%);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.25s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #2563eb24;
+}
+.new-btn:focus, .new-btn:hover {
+  background: linear-gradient(99deg,#2563EB 80%, #F59E0B 100%);
+  box-shadow: 0 4px 12px #2563eb33;
+  outline: 2px solid #2563EB33;
+}
+.notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0.3rem 1rem 0.3rem;
+  flex: 1 1 0%;
+  min-height: 320px;
+  overflow-y: auto;
+}
+.note-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9em;
+  padding: 0.7em 2em 0.7em 2.2em;
+  margin-bottom: 0.13em;
+  border-radius: 1.3em;
+  background: transparent;
+  color: #111827;
+  font-size: 1.06em;
+  cursor: pointer;
+  transition: background 0.16s, color 0.16s;
+  border: 1.3px solid transparent;
+  position: relative;
+  user-select: none;
+}
+.note-item.active, .note-item:focus {
+  background: linear-gradient(90deg,#2563EB16 5%, #fff 80%);
+  color: #2563EB;
+  border: 1.3px solid #2563EB66;
+  box-shadow: 0 4px 10px #2563EB13;
+  z-index: 1;
+}
+.note-item:active {
+  background: #2563eb22;
+}
+.note-item .item-title {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1.06em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.item-date {
+  flex: none;
+  font-size: 0.93em;
+  color: #4b5563;
+  margin-left: 1em;
+}
+.delete {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 0.2em 0.3em;
+  margin-left: 0.3em;
+  border-radius: 0.7em;
+  transition: background 0.16s;
+  flex-shrink: 0;
+}
+.delete:focus, .delete:hover {
+  background: #ef4444;
+  color: #fff;
+  outline: 2px solid #ef444433;
+}
+.empty {
+  padding: 2em 1em 1em 2em;
+  color: #9ca3af;
+  font-size: 1.1em;
+  text-align: left;
+}
+@media (max-width: 700px) {
+  .sidebar {
+    min-width: 60px;
+    width: 90vw;
+    max-width: 99vw;
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 10px #2563eb1a;
+  }
+  .sidebar-header { padding-left: 1em; }
+  .note-item, .notes-list { padding: 0 0.15em; }
+}
+</style>

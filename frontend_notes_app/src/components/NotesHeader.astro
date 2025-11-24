@@ -1,0 +1,84 @@
+---
+export interface Props {
+  search: string;
+  onSearchInput: any;
+}
+const { search, onSearchInput } = Astro.props;
+---
+<header class="header" role="banner">
+  <span class="logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" focusable="false" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="#2563EB" />
+      <text x="16" y="21" text-anchor="middle" fill="#fff" font-size="17" font-weight="bold" font-family="Inter, sans-serif">✎</text>
+    </svg>
+    <span class="app-title">Ocean Notes</span>
+  </span>
+  <label class="sr-only" for="search-input">Search notes</label>
+  <input
+    id="search-input"
+    class="search"
+    type="search"
+    placeholder="Search notes..."
+    value={search}
+    onInput={onSearchInput}
+    autocomplete="off"
+    aria-label="Search notes"
+  />
+</header>
+<style>
+.header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem 1rem 1.5rem;
+  background: linear-gradient(99deg, #2563EB1A 0%, #f9fafb 100%);
+  box-shadow: 0 1px 8px #2563EB1A;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2563EB;
+  gap: 0.7rem;
+  letter-spacing: -0.5px;
+}
+.app-title {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.search {
+  flex: 1;
+  min-width: 120px;
+  max-width: 420px;
+  padding: 0.6rem 1.2rem;
+  border: 1.5px solid #dbeafe;
+  border-radius: 100px;
+  font-size: 1rem;
+  transition: border 0.18s, box-shadow 0.18s;
+  background: #fff;
+  box-shadow: 0 2px 16px 0 #2563EB14;
+  color: #111827;
+}
+.search:focus {
+  outline: none;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 2px #2563EB33;
+}
+.sr-only {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+@media (max-width: 680px) {
+  .header {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.6rem 0.5rem 0.6rem 0.5rem;
+  }
+  .app-title { font-size: 1rem; }
+}
+</style>
