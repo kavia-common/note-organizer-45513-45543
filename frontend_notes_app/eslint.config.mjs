@@ -14,7 +14,7 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        // project: './tsconfig.json', // Disable to avoid missing Astro generated files issue
         ecmaVersion: 2022,
         sourceType: 'module',
       },
